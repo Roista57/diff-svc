@@ -20,7 +20,7 @@ def override_config(old_config: dict, new_config: dict):
             old_config[k] = v
 
 
-def set_hparams(config='', exp_name='', hparams_str='', print_hparams=True, global_hparams=True,reset=True,infer=True):
+def set_hparams(config='', exp_name='', hparams_str='', print_hparams=True, global_hparams=True, reset=True, infer=True):
     '''
         Load hparams from multiple sources:
         1. config chain (i.e. first load base_config, then load config);
@@ -46,7 +46,8 @@ def set_hparams(config='', exp_name='', hparams_str='', print_hparams=True, glob
     args_work_dir = ''
     if args.exp_name != '':
         args.work_dir = args.exp_name
-        args_work_dir = f'checkpoints/{args.work_dir}'
+        #args_work_dir = f'checkpoints/{args.work_dir}'
+        args_work_dir = f'{args.work_dir}'
 
     config_chains = []
     loaded_config = set()
@@ -84,11 +85,9 @@ def set_hparams(config='', exp_name='', hparams_str='', print_hparams=True, glob
                 pass
         if args.config == '':
             args.config = ckpt_config_path
-
     hparams_ = {}
-
     hparams_.update(load_config(args.config))
-    
+
     if not args.reset:
         hparams_.update(saved_hparams)
     hparams_['work_dir'] = args_work_dir
@@ -104,7 +103,8 @@ def set_hparams(config='', exp_name='', hparams_str='', print_hparams=True, glob
                 hparams_[k] = type(hparams_[k])(v)
 
     if args_work_dir != '' and (not os.path.exists(ckpt_config_path) or args.reset) and not args.infer:
-        os.makedirs(hparams_['work_dir'], exist_ok=True)
+        os.makedirs(args.work_dir, exist_ok=True)
+        ckpt_config_path = os.path.join(args.work_dir, 'config.yaml')
         with open(ckpt_config_path, 'w', encoding='utf-8') as f:
             yaml.safe_dump(hparams_, f)
 
