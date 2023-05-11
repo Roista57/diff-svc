@@ -274,14 +274,24 @@ def main(input_dir: str, output_dir: str, split_sil: bool = False, use_preproces
         os.remove(temp_log_path)
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Audio preprocessing script")
-    parser.add_argument("-input_dir", type=str, default="preprocess")
-    parser.add_argument("-output_dir", type=str, default="preprocess_out")
-    parser.add_argument("-split_sil", type=bool, default=True)
-    parser.add_argument("-use_preprocessing", type=bool, default=True)
-    parser.add_argument("-use_norm", type=bool, default=True)
-    parser.add_argument("-use_extract", type=bool, default=True)
+    parser.add_argument("--input_dir", type=str, default="preprocess")
+    parser.add_argument("--output_dir", type=str, default="preprocess_out")
+    parser.add_argument("--split_sil", type=str2bool, default=True)
+    parser.add_argument("--use_preprocessing", type=str2bool, default=True)
+    parser.add_argument("--use_norm", type=str2bool, default=True)
+    parser.add_argument("--use_extract", type=str2bool, default=True)
 
     args = parser.parse_args()
 
