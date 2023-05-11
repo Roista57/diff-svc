@@ -276,12 +276,12 @@ def main(input_dir: str, output_dir: str, split_sil: bool = False, use_preproces
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Audio preprocessing script")
-    parser.add_argument("--input_dir", type=str, default="preprocess")
-    parser.add_argument("--output_dir", type=str, default="preprocess_out")
-    parser.add_argument("--split_sil", action="store_true")
-    parser.add_argument("--use_preprocessing", action="store_true", help="Whether to set samplerate to 44100 and channel to mono")
-    parser.add_argument("--use_norm", action="store_true")
-    parser.add_argument("--use_extract", action="store_true")
+    parser.add_argument("-input_dir", type=str, default="preprocess")
+    parser.add_argument("-output_dir", type=str, default="preprocess_out")
+    parser.add_argument("-split_sil", type=bool, default=True)
+    parser.add_argument("-use_preprocessing", type=bool, default=True)
+    parser.add_argument("-use_norm", type=bool, default=True)
+    parser.add_argument("-use_extract", type=bool, default=True)
 
     args = parser.parse_args()
 
