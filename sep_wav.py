@@ -3,7 +3,7 @@ from typing import List
 from tqdm import tqdm
 from glob import glob
 import subprocess
-
+import argparse
 import numpy as np
 import librosa
 import soundfile
@@ -275,18 +275,21 @@ def main(input_dir: str, output_dir: str, split_sil: bool = False, use_preproces
 
 
 if __name__ == "__main__":
-    input_dir = "preprocess"
-    output_dir = "preprocess_out"
-    split_sil = False
-    use_preprocessing = True # for set samplerate to 44100, channel to mono
-    use_norm = True
-    use_extract = True
+    parser = argparse.ArgumentParser(description="Audio preprocessing script")
+    parser.add_argument("--input_dir", type=str, default="preprocess")
+    parser.add_argument("--output_dir", type=str, default="preprocess_out")
+    parser.add_argument("--split_sil", action="store_true")
+    parser.add_argument("--use_preprocessing", action="store_true", help="Whether to set samplerate to 44100 and channel to mono")
+    parser.add_argument("--use_norm", action="store_true")
+    parser.add_argument("--use_extract", action="store_true")
+
+    args = parser.parse_args()
 
     main(
-        input_dir=input_dir,
-        output_dir=output_dir,
-        split_sil=split_sil,
-        use_preprocessing=use_preprocessing,
-        use_norm=use_norm,
-        use_extract=use_extract
+        input_dir=args.input_dir,
+        output_dir=args.output_dir,
+        split_sil=args.split_sil,
+        use_preprocessing=args.use_preprocessing,
+        use_norm=args.use_norm,
+        use_extract=args.use_extract
     )
